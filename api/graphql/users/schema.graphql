@@ -1,0 +1,13 @@
+type Account {
+  username: String!
+  password: String!
+  userid: Int!
+}
+
+type Query {
+  login(name: String!, password: String!): String!
+}
+
+type Mutation {
+  signup(username: String!, password: String!): Account
+}
