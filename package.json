@@ -1,0 +1,26 @@
+{
+  "devDependencies": {
+    "jest": "^27.0.4"
+  },
+  "scripts": {
+    "test": "jest",
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  },
+  "name": "passsaver",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amanzhankakim/PasswordSaver-API.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/amanzhankakim/PasswordSaver-API/issues"
+  },
+  "homepage": "https://github.com/amanzhankakim/PasswordSaver-API#readme",
+  "description": ""
+}
