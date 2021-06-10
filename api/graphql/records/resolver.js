@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const methods = require("./DAL");
+require("dotenv").config();
 
 exports.resolver = {
   Query: {

@@ -15,11 +15,11 @@ exports.resolver = {
         }
         console.log(user);
         const hash = user[0].password;
-        console.log(bcrypt.compareSync.mock);
+        console.log(bcrypt.compareSync(password, hash));
         if (!bcrypt.compareSync(password, hash)) {
           throw new Error("Wrong password!!!");
         }
-        const accesstoken = jwt.sign(user[0], "secret");
+        const accesstoken = jwt.sign(user[0], process.env.ACCESS_SECRET_TOKEN);
 
         return accesstoken;
       } catch (err) {
