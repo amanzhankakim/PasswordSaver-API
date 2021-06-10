@@ -4,7 +4,8 @@ module.exports = {
       const res = await db.query("SELECT * FROM users WHERE username = $1", [
         username,
       ]);
-      return res;
+      console.log(res);
+      return res.rows;
     } catch (err) {
       throw err;
     }

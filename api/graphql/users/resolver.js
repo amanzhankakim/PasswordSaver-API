@@ -1,26 +1,25 @@
 const methods = require("./DAL");
 const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
+require("dotenv").config();
 
 exports.resolver = {
   Query: {
     login: async (_, { name, password }, context) => {
       try {
+        console.log(methods.findUsername("amanzhan", "kakim"));
         const user = await methods.findUsername(name, context.db);
 
-        if (user && user.rowCount === 0) {
+        if (user && user.length === 0) {
           throw new Error("Username does not exist");
         }
-
-        const hash = user.rows[0].password;
+        console.log(user);
+        const hash = user[0].password;
+        console.log(bcrypt.compareSync.mock);
         if (!bcrypt.compareSync(password, hash)) {
           throw new Error("Wrong password!!!");
         }
-
-        const accesstoken = jwt.sign(
-          user.rows[0],
-          process.env.ACCESS_SECRET_TOKEN
-        );
+        const accesstoken = jwt.sign(user[0], "secret");
 
         return accesstoken;
       } catch (err) {
