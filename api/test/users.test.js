@@ -1,8 +1,8 @@
 jest.mock("../api/graphql/users/DAL");
 jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
-const methods = require("../api/graphql/users/DAL");
-const { resolver } = require("../api/graphql/users/resolver");
+const methods = require("../graphql/users/DAL");
+const { resolver } = require("../graphql/users/resolver");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 bcrypt.compareSync = jest.fn().mockReturnValue(true);

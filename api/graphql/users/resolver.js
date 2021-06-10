@@ -2,6 +2,9 @@ const methods = require("./DAL");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
+const redis = require("redis");
+
+//const client = redis.createClient();
 
 exports.resolver = {
   Query: {
