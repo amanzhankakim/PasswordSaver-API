@@ -10,9 +10,7 @@ const client = redis.createClient({
   port: 6379,
 });
 
-sgMail.setApiKey(
-  "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"
-);
+sgMail.setApiKey(proccess.env.API_KEY);
 
 client.on("error", function (err) {
   console.log("Error " + err);
