@@ -2,19 +2,9 @@ const methods = require("./DAL");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-const redis = require("redis");
 const sgMail = require("@sendgrid/mail");
-
-const client = redis.createClient({
-  host: "redis",
-  port: 6379,
-});
-
 sgMail.setApiKey(process.env.API_KEY);
 
-client.on("error", function (err) {
-  console.log("Error " + err);
-});
 exports.resolver = {
   Query: {
     login: async (_, { email, password }, context) => {
@@ -39,9 +29,9 @@ exports.resolver = {
           html: `<strong>${num}</strong>`,
         };
 
-        await sgMail.send(msg);
+        await context.sgMail.send(msg);
         console.log(msg);
-        const res = await context.client.set(user[0].userid, num, "EX", 3600);
+        await context.client.set(user[0].userid, num, "EX", 3600);
         return email;
       } catch (err) {
         console.log(err);
