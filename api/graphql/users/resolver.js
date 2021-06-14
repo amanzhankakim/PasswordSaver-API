@@ -2,8 +2,6 @@ const methods = require("./DAL");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
-const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(process.env.API_KEY);
 
 exports.resolver = {
   Query: {
