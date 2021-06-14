@@ -5,9 +5,10 @@ type Account {
 }
 
 type Query {
-  login(name: String!, password: String!): String!
+  login(email: String!, password: String!): String!
+  tfa(value: String!, user_id: Int!): String!
 }
 
 type Mutation {
-  signup(username: String!, password: String!): Account!
+  signup(email: String!, username: String!, password: String!): Account!
 }
