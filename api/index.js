@@ -1,6 +1,6 @@
 const mercurius = require("mercurius");
 const pool = require("./db/pool");
-
+const client = require("./db/redis");
 const fastify = require("fastify")({
   logger: true,
 });
@@ -25,6 +25,7 @@ fastify.register(mercurius, {
       user_id: 1234,
       token: request.headers["x-jwtoken"],
       db: pool,
+      client: client,
     };
   },
 });

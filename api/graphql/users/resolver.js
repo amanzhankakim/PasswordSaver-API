@@ -10,9 +10,7 @@ const client = redis.createClient({
   port: 6379,
 });
 
-sgMail.setApiKey(
-  "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"
-);
+sgMail.setApiKey(process.env.API_KEY);
 
 client.on("error", function (err) {
   console.log("Error " + err);
@@ -34,39 +32,37 @@ exports.resolver = {
         const num = Math.floor(100000 + Math.random() * 900000);
 
         const msg = {
-          to: "amanzhan.kakim@nu.edu.kz", // Change to your recipient
-          from: "amanzhankakim13@gmail.com", // Change to your verified sender
+          to: email, // Change to your recipient
+          from: "amanzholkakim@gmail.com", // Change to your verified sender
           subject: "Login verification code",
           text: "Your verification code is",
           html: `<strong>${num}</strong>`,
         };
 
-        sgMail
-          .send(msg)
-          .then((response) => {
-            console.log(response[0].statusCode);
-            console.log(response[0].headers);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-        client.set(user[0].userid, num, "EX", 3600, () => {});
-        return user[0].userid;
+        await sgMail.send(msg);
+        console.log(msg);
+        const res = await context.client.set(user[0].userid, num, "EX", 3600);
+        return email;
       } catch (err) {
+        console.log(err);
         throw err;
       }
     },
 
-    tfa: (_, { value, user_id }, context) => {
-      return client.get(user_id, (err, result) => {
-        if (result != value) throw new Error("Wrong code");
+    tfa: async (_, { value, email }, context) => {
+      try {
+        const user = await methods.findUsername(email, context.db);
+        const result = await context.client.get(user[0].userid);
+        if (result != value) throw new Error("Your code is wrong or expired");
         const accesstoken = jwt.sign(
-          { userid: user_id },
+          { userid: user[0].userid },
           process.env.ACCESS_SECRET_TOKEN
         );
 
         return accesstoken;
-      });
+      } catch (err) {
+        throw err;
+      }
     },
   },
   Mutation: {

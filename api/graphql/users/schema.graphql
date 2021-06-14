@@ -6,7 +6,7 @@ type Account {
 
 type Query {
   login(email: String!, password: String!): String!
-  tfa(value: String!, user_id: Int!): String!
+  tfa(value: String!, email: String!): String!
 }
 
 type Mutation {
