@@ -16,7 +16,7 @@ exports.resolver = {
         if (!bcrypt.compareSync(password, hash)) {
           throw new Error("Wrong password!!!");
         }
-
+        console.log(bcrypt.compareSync(password, hash));
         const num = Math.floor(100000 + Math.random() * 900000);
 
         const msg = {
@@ -27,10 +27,9 @@ exports.resolver = {
           html: `<strong>${num}</strong>`,
         };
 
-        await context.sgMail.send(msg);
-        console.log(msg);
-        await context.client.set(user[0].userid, num, "EX", 3600);
-        return email;
+        await methods.sendMsg(msg, context.sgMail);
+        const res = await methods.setValue(user[0].userid, num, context.client);
+        return res;
       } catch (err) {
         console.log(err);
         throw err;
@@ -40,7 +39,7 @@ exports.resolver = {
     tfa: async (_, { value, email }, context) => {
       try {
         const user = await methods.findUsername(email, context.db);
-        const result = await context.client.get(user[0].userid);
+        const result = await methods.getValue(user[0].userid, context.client);
         if (result != value) throw new Error("Your code is wrong or expired");
         const accesstoken = jwt.sign(
           { userid: user[0].userid },

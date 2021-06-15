@@ -21,4 +21,29 @@ module.exports = {
       throw err;
     }
   },
+
+  sendMsg: async (msg, sgMail) => {
+    try {
+      await sgMail.send(msg);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  setValue: async (id, value, client) => {
+    try {
+      client.set(id, value, "EX", 3600);
+    } catch (err) {
+      throw err;
+    }
+  },
+
+  getValue: async (id, client) => {
+    try {
+      const result = await client.get(id);
+      return result;
+    } catch (err) {
+      throw err;
+    }
+  },
 };

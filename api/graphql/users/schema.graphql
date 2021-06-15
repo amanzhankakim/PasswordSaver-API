@@ -5,7 +5,7 @@ type Account {
 }
 
 type Query {
-  login(email: String!, password: String!): String!
+  login(email: String!, password: String!): Boolean!
   tfa(value: String!, email: String!): String!
 }
 
